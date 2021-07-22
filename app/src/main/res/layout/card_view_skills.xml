@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginTop="12dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardElevation="6dp"
+    app:cardCornerRadius="10dp"
+    android:layout_marginHorizontal="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="15dp">
+
+        <TextView
+            android:id="@+id/card_view_skills_tv_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Навыки"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/card_view_skills_tv_exp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:gravity="end|center"
+            android:textSize="15sp"
+            android:layout_gravity="end"
+            android:layout_marginTop="-20dp"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
