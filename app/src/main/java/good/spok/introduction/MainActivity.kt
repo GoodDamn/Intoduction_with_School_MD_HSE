@@ -2,6 +2,7 @@ package good.spok.introduction
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,6 +47,7 @@ open class MainActivity : AppCompatActivity() {
 
         class ViewHolderName(itemView: View, context: Activity) : RecyclerView.ViewHolder(itemView) {
             var b_github : Button = itemView.findViewById(R.id.button_github);
+            var avatar : ImageView = itemView.findViewById(R.id.card_view_profile_imageView);
 
             init {
                 b_github.setOnClickListener {
@@ -78,12 +81,20 @@ open class MainActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            if (holder.itemViewType in 3 until itemCount)
+            when (holder.itemViewType)
             {
-                var hold : ViewHolderSkills = holder as ViewHolderSkills;
-                hold.tv_language.text = arrayList.get(position);
-                hold.tv_exp.text = arrayListExp.get((itemCount- arrayListExp.size - position) * -1);
-
+                0 -> {
+                    var hold : ViewHolderName = holder as ViewHolderName;
+                    val animDrawable = hold.avatar.background as AnimationDrawable;
+                    animDrawable.setEnterFadeDuration(2000);
+                    animDrawable.setExitFadeDuration(5500);
+                    animDrawable.start();
+                }
+                in 3 until itemCount -> {
+                    var hold : ViewHolderSkills = holder as ViewHolderSkills;
+                    hold.tv_language.text = arrayList.get(position);
+                    hold.tv_exp.text = arrayListExp.get((itemCount- arrayListExp.size - position) * -1);
+                }
             }
         }
 
