@@ -84,14 +84,14 @@ open class MainActivity : AppCompatActivity() {
             when (holder.itemViewType)
             {
                 0 -> {
-                    var hold : ViewHolderName = holder as ViewHolderName;
+                    val hold : ViewHolderName = holder as ViewHolderName;
                     val animDrawable = hold.avatar.background as AnimationDrawable;
                     animDrawable.setEnterFadeDuration(2000);
                     animDrawable.setExitFadeDuration(5500);
                     animDrawable.start();
                 }
                 in 3 until itemCount -> {
-                    var hold : ViewHolderSkills = holder as ViewHolderSkills;
+                    val hold : ViewHolderSkills = holder as ViewHolderSkills;
                     hold.tv_language.text = arrayList.get(position);
                     hold.tv_exp.text = arrayListExp.get((itemCount- arrayListExp.size - position) * -1);
                 }
