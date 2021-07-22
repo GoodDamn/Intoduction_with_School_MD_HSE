@@ -1,8 +1,12 @@
 package good.spok.introduction
 
+import android.annotation.SuppressLint
+import android.app.ActionBar
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,9 +22,14 @@ import androidx.recyclerview.widget.RecyclerView
 
 open class MainActivity : AppCompatActivity() {
 
+    @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        supportActionBar?.displayOptions = ActionBar.DISPLAY_SHOW_CUSTOM;
+        supportActionBar?.customView = layoutInflater.inflate(R.layout.custom_action_bar, null, false)
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.WHITE));
 
         val arrayList : ArrayList<String> = ArrayList();
         val arrayListExp : ArrayList<String> = ArrayList();
