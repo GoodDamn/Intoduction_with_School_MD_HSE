@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -49,7 +50,7 @@ open class MainActivity : AppCompatActivity() {
         recyclerView.adapter = DynamicAdapter(this, arrayList, arrayListExp);
     }
 
-    protected class DynamicAdapter(var context : Activity,
+    private class DynamicAdapter(var context : Activity,
                                    var arrayList: ArrayList<String>,
                                    var arrayListExp: ArrayList<String>) : RecyclerView.Adapter<RecyclerView.ViewHolder>()
     {
@@ -71,7 +72,15 @@ open class MainActivity : AppCompatActivity() {
         }
 
         class ViewHolderProblem(itemView: View) : RecyclerView.ViewHolder(itemView){}
-        class ViewHolderTitleSkills(itemView: View) : RecyclerView.ViewHolder(itemView){}
+        class ViewHolderTitleSkills(itemView: View, context: Activity) : RecyclerView.ViewHolder(itemView){
+            var iv_filter : ImageView = itemView.findViewById(R.id.card_view_title_imageView_filter);
+            init {
+                iv_filter.setOnClickListener {
+                    val intent = Intent(context, FilterActivity::class.java);
+                    context.startActivityForResult(intent, 1);
+                };
+            }
+        }
 
         override fun getItemViewType(position: Int): Int {
             return position;
@@ -81,7 +90,8 @@ open class MainActivity : AppCompatActivity() {
             when (viewType)
             {
                 1 -> return ViewHolderProblem(LayoutInflater.from(parent.context).inflate(R.layout.card_view_problem, parent, false));
-                2 -> return ViewHolderTitleSkills(LayoutInflater.from(parent.context).inflate(R.layout.card_view_title_skills, parent, false))
+                2 -> return ViewHolderTitleSkills(LayoutInflater.from(parent.context).inflate(R.layout.card_view_title_skills, parent, false),
+                        context)
                 in 3 until itemCount -> return ViewHolderSkills(LayoutInflater.from(parent.context).inflate(R.layout.card_view_skills, parent, false));
             }
 
@@ -111,6 +121,19 @@ open class MainActivity : AppCompatActivity() {
             return arrayList.size;
         }
 
+        fun filter(arrayList: ArrayList<String>, arrayListExp: ArrayList<String>)
+        {
+            this.arrayList = arrayList;
+            this.arrayListExp = arrayListExp;
+            notifyDataSetChanged();
+        }
+    }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1)
+        {
+            Toast.makeText(this, data?.getStringExtra("filter"), Toast.LENGTH_SHORT).show()
+        };
     }
 }
