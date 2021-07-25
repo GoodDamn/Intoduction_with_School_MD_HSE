@@ -39,9 +39,12 @@ class FilterActivity : AppCompatActivity() {
         supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.WHITE))
 
         val arrayList = ArrayList<String>();
-        arrayList.add("Все")
-        arrayList.add("> 2-ух лет")
-        arrayList.add("почти 2 года")
+        arrayList.add("Все");
+        arrayList.add("> 2-ух лет");
+        arrayList.add("почти 2 года");
+        arrayList.add("< 3-ёх месяцев");
+        arrayList.add("< месяца");
+        arrayList.add("< недели");
 
         val recyclerView = findViewById<RecyclerView>(R.id.filter_recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -54,21 +57,25 @@ class FilterActivity : AppCompatActivity() {
     {
 
         companion object {
-            var checkBoxes = arrayOfNulls<CheckBox>(3);
+            var checkBoxes = arrayOfNulls<CheckBox>(6);
         }
 
         open class ViewHolder(itemView: View, context: Activity) : RecyclerView.ViewHolder(itemView) {
             val checkBox : CheckBox = itemView.findViewById(R.id.card_view_filter_checkBox);
             init {
-                checkBox.setOnCheckedChangeListener { compoundButton, b ->
-                    if (adapterPosition == 0 && b) // All
+                checkBox.setOnClickListener {
+                    if (adapterPosition == 0 && checkBox.isChecked) // All
                     {
+                        intent.putExtra("filter", "nope")
+                        context.setResult(1, intent)
                         for (i in 1 until checkBoxes.size)
                             checkBoxes[i]?.isChecked = true;
                     }
-                    else if (b){
-                        intent.putExtra("filter", checkBox.text.toString())
-                        context.setResult(1, intent)
+                    else if (checkBox.isChecked){
+                        if (checkBoxes[0]?.isChecked == false) {
+                            intent.putExtra("filter", checkBox.text.toString())
+                            context.setResult(1, intent)
+                        }
                     }
                 };
             }

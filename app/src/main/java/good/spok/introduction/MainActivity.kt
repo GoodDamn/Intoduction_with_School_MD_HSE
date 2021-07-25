@@ -23,6 +23,10 @@ import androidx.recyclerview.widget.RecyclerView
 
 open class MainActivity : AppCompatActivity() {
 
+    private var adapter : DynamicAdapter? = null;
+    private val arrayList : ArrayList<String> = ArrayList();
+    private val arrayListExp : ArrayList<String> = ArrayList();
+
     @SuppressLint("WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,8 +36,6 @@ open class MainActivity : AppCompatActivity() {
         supportActionBar?.customView = layoutInflater.inflate(R.layout.custom_action_bar, null, false)
         supportActionBar?.setBackgroundDrawable(ColorDrawable(Color.WHITE));
 
-        val arrayList : ArrayList<String> = ArrayList();
-        val arrayListExp : ArrayList<String> = ArrayList();
         arrayList.add("header");
         arrayList.add("problem");
         arrayList.add("title");
@@ -47,7 +49,8 @@ open class MainActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.main_recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.layoutManager = LinearLayoutManager(this);
-        recyclerView.adapter = DynamicAdapter(this, arrayList, arrayListExp);
+        adapter = DynamicAdapter(this, arrayList, arrayListExp);
+        recyclerView.adapter = adapter;
     }
 
     private class DynamicAdapter(var context : Activity,
@@ -133,7 +136,26 @@ open class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1)
         {
-            Toast.makeText(this, data?.getStringExtra("filter"), Toast.LENGTH_SHORT).show()
+            if (!data?.getStringExtra("filter").toString().equals("nope"))
+            {
+                val arrayListN = ArrayList<String>();
+                arrayListN.add("header");
+                arrayListN.add("problem");
+                arrayListN.add("title");
+                val arrayListExpN = ArrayList<String>();
+                var index = 0;
+                for (i in arrayListExp) {
+                    if (i.contains(data?.getStringExtra("filter").toString())) {
+                        arrayListN.add(arrayList.get(index + 3))
+                        arrayListExpN.add(arrayListExp.get(index))
+                    }
+                    index++;
+                }
+                adapter?.filter(arrayListN, arrayListExpN);
+            }
+            else{
+                adapter?.filter(arrayList, arrayListExp);
+            }
         };
     }
 }
